@@ -8,5 +8,15 @@
 		include_once BASE_URL . 'classes/' . $url[count($url) - 2] . '/' . $url[count($url) - 1] . '.php';
 	});
 
-	$Joey = new pokemon\charmeleon("Joey");
+	$Charmeleon = new pokemon\charmeleon();
+	$Pikachu = new pokemon\Pikachu();
+
+	$vars = get_defined_vars();
+
+	foreach ($vars as $key => $value) {
+		if (!isset($$key->health) || $$key->health <= 0) {
+			unset($vars[$key]);
+			continue;
+		}
+	}
 ?>

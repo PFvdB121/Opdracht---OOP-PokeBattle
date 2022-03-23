@@ -8,11 +8,11 @@
 
 	class pokemon extends \abstractC\pokemon
 	{
-		public $name;
+		private $name;
 		public $nickname;
 		private $hitpoints;
 		private $health;
-		public $EnergyType;
+		private $EnergyType;
 		private $chosenAttack;
 		private $resistances = array();
 		private $weaknesses = array();
@@ -30,7 +30,7 @@
 				$this->nickname = $nickname;
 			}
 			$this->hitpoints = $hitpoints;
-			$this->health->$hitpoints;
+			$this->health = $hitpoints;
 			$this->EnergyType = $EnergyType;
 			foreach ($resistances as $value) {
 				array_push($this->resistances, $value);
@@ -45,14 +45,14 @@
 
 		public function attack(){
 			$this->chosenAttack = rand(0, (count($this->attacks) - 1));
-			echo $name . " used " . $attacks[$this->chosenAttack]["name"];
-			return $attacks[$this->chosenAttack];
+			echo $this->nickname . " used " . $this->attacks[$this->chosenAttack]["name"] . ". <br>";
+			return $this->attacks[$this->chosenAttack];
 		}
 
 		private function weakness_exploit($type, $damage)
 		{
-			foreach ($weaknesses as $value) {
-				if ($value["EnergyType"] = $type) {
+			foreach ($this->weaknesses as $value) {
+				if (strtoupper($value["EnergyType"]) == strtoupper($type)) {
 					$damage *= $value["multiplier"];
 				}
 			}
@@ -61,20 +61,22 @@
 
 		private function resistance_exploit($type, $damage)
 		{
-			foreach ($resistance as $value) {
-				if ($value["EnergyType"] = $type) {
+			foreach ($this->resistances as $value) {
+				if (strtoupper($value["EnergyType"]) == strtoupper($type)) {
 					$damage -= $value["reduction"];
 				}
 			}
 			return $damage;
 		}
 
-		public function damage($damage){
+		public function damage($type, $damage){
+			$damage = $this->weakness_exploit($type, $damage);
+			$damage = $this->resistance_exploit($type, $damage);
 			$this->health -= $damage;
 			if ($this->health < 0) {
 				$this->health = 0;
 			}
-			echo $name . " took " . $damage . " damage. <br>" . $name . " has " . $health . "hp left. <br>";
+			echo $this->nickname . " took " . $damage . " damage. <br>" . $this->nickname . " has " . $this->health . "hp left. <br>";
 		}
 	}
 ?>

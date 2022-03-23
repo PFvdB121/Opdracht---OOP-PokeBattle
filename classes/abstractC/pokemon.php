@@ -5,6 +5,6 @@
 	{
 		abstract public function attack();
 		
-		abstract public function damage($damage);
+		abstract public function damage($type, $damage);
 	}
 ?>
