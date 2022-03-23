@@ -49,7 +49,7 @@
 			return $this->attacks[$this->chosenAttack];
 		}
 
-		private function weakness_exploit($type, $damage)
+		protected function weakness_exploit($type, $damage)
 		{
 			foreach ($this->weaknesses as $value) {
 				if (strtoupper($value["EnergyType"]) == strtoupper($type)) {
@@ -59,7 +59,7 @@
 			return $damage;
 		}
 
-		private function resistance_exploit($type, $damage)
+		protected function resistance_exploit($type, $damage)
 		{
 			foreach ($this->resistances as $value) {
 				if (strtoupper($value["EnergyType"]) == strtoupper($type)) {
