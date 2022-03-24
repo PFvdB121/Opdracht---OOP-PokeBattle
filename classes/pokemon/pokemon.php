@@ -57,7 +57,7 @@
 			return $damage;
 		}
 
-		protected function resistance_exploit($EnergyType, $damage)
+		protected function resistance_defence($EnergyType, $damage)
 		{
 			foreach ($this->resistances as $value) {
 				if (strtoupper($value->EnergyType) == strtoupper($EnergyType)) {
@@ -69,7 +69,7 @@
 
 		public function damage($EnergyType, $damage){
 			$damage = $this->weakness_exploit($EnergyType, $damage);
-			$damage = $this->resistance_exploit($EnergyType, $damage);
+			$damage = $this->resistance_defence($EnergyType, $damage);
 			$this->health -= $damage;
 			if ($this->health < 0) {
 				$this->health = 0;
