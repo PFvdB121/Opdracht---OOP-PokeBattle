@@ -1,12 +1,11 @@
 <?php 
 	namespace pokemon;
 	
-	class charmeleon extends \EnergyType\Fire
+	class charmeleon extends \pokemon\pokemon
 	{
-		public $charmeleonAttacks = array(['name' => "Head Butt", 'EnergyType' => "Normal", 'damage' => 10], ['name' => "Flare", 'EnergyType' => "Fire", 'damage' => 30]);
-		
 		function __construct($nickname=""){
-			parent::__construct("charmeleon", 60, $this->charmeleonAttacks, $nickname);
+			$this->EnergyType = new \EnergyType\EnergyType("Fire");
+			parent::__construct("Charmeleon", 60, array(new \Resistance\Resistance("Lightning", 10)), array(new \Weakness\Weakness("Water", 2)), array(new \Attack\Attack("Flare", 30), new \Attack\Attack("Head Butt", 10)), $nickname);
 		}
 	}
 ?>

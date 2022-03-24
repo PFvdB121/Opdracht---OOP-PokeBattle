@@ -11,8 +11,8 @@
 		private $name;
 		public $nickname;
 		private $hitpoints;
-		private $health;
-		private $EnergyType;
+		public $health;
+		protected $EnergyType;
 		private $chosenAttack;
 		private $resistances = array();
 		private $weaknesses = array();
@@ -20,7 +20,7 @@
 		
 
 
-		public function __construct($name, $hitpoints, $EnergyType, array $resistances, array $weaknesses, array $attacks, $nickname="")
+		public function __construct($name, $hitpoints, array $resistances, array $weaknesses, array $attacks, $nickname="")
 		{
 			$this->name = $name;
 			if ($nickname == "") {
@@ -31,7 +31,6 @@
 			}
 			$this->hitpoints = $hitpoints;
 			$this->health = $hitpoints;
-			$this->EnergyType = $EnergyType;
 			foreach ($resistances as $value) {
 				array_push($this->resistances, $value);
 			}
@@ -45,38 +44,37 @@
 
 		public function attack(){
 			$this->chosenAttack = rand(0, (count($this->attacks) - 1));
-			echo $this->nickname . " used " . $this->attacks[$this->chosenAttack]["name"] . ". <br>";
-			return $this->attacks[$this->chosenAttack];
+			return array("name" => $this->attacks[$this->chosenAttack]->name, "damage" => $this->attacks[$this->chosenAttack]->damage, "EnergyType" => $this->EnergyType->EnergyType, "sentence" => $this->nickname . " used " . $this->attacks[$this->chosenAttack]->name . ". <br>");
 		}
 
-		protected function weakness_exploit($type, $damage)
+		protected function weakness_exploit($EnergyType, $damage)
 		{
 			foreach ($this->weaknesses as $value) {
-				if (strtoupper($value["EnergyType"]) == strtoupper($type)) {
-					$damage *= $value["multiplier"];
+				if (strtoupper($value->EnergyType->EnergyType) == strtoupper($EnergyType)) {
+					$damage *= $value->Multiplier;
 				}
 			}
 			return $damage;
 		}
 
-		protected function resistance_exploit($type, $damage)
+		protected function resistance_exploit($EnergyType, $damage)
 		{
 			foreach ($this->resistances as $value) {
-				if (strtoupper($value["EnergyType"]) == strtoupper($type)) {
-					$damage -= $value["reduction"];
+				if (strtoupper($value->EnergyType) == strtoupper($EnergyType)) {
+					$damage -= $value->Reduction;
 				}
 			}
 			return $damage;
 		}
 
-		public function damage($type, $damage){
-			$damage = $this->weakness_exploit($type, $damage);
-			$damage = $this->resistance_exploit($type, $damage);
+		public function damage($EnergyType, $damage){
+			$damage = $this->weakness_exploit($EnergyType, $damage);
+			$damage = $this->resistance_exploit($EnergyType, $damage);
 			$this->health -= $damage;
 			if ($this->health < 0) {
 				$this->health = 0;
 			}
-			echo $this->nickname . " took " . $damage . " damage. <br>" . $this->nickname . " has " . $this->health . "hp left. <br>";
+			return $this->nickname . " took " . $damage . " damage. <br>" . $this->nickname . " has " . $this->health . "hp left. <br>";
 		}
 	}
 ?>

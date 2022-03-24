@@ -5,10 +5,10 @@
 	{
 		abstract public function attack();
 
-		abstract protected function weakness_exploit($type, $damage);
+		abstract protected function weakness_exploit($EnergyType, $damage);
 
-		abstract protected function resistance_exploit($type, $damage);
+		abstract protected function resistance_exploit($EnergyType, $damage);
 		
-		abstract public function damage($type, $damage);
+		abstract public function damage($EnergyType, $damage);
 	}
 ?>

@@ -7,7 +7,8 @@
 		public $FireWeaknesses = array(["EnergyType" => "Water", "multiplier" => 2.0]);
 		
 		function __construct($name, $hitpoints, array $attacks, $nickname=""){
-			parent::__construct($name, $hitpoints, "Fire", $this->FireResistances, $this->FireWeaknesses, $attacks, $nickname);
+			array_push($this->EnergyType, "Fire");
+			parent::__construct($name, $hitpoints, $this->FireResistances, $this->FireWeaknesses, $attacks, $nickname);
 		}
 	}
 ?>

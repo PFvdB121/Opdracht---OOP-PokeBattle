@@ -7,7 +7,8 @@
 		public $LightningWeaknesses = array(["EnergyType" => "Fire", "multiplier" => 1.5]);
 		
 		function __construct($name, $hitpoints, array $attacks, $nickname=""){
-			parent::__construct($name, $hitpoints, "Lightning", $this->LightningResistances, $this->LightningWeaknesses, $attacks);
+			array_push($this->EnergyType, "Lightning");
+			parent::__construct($name, $hitpoints, $this->LightningResistances, $this->LightningWeaknesses, $attacks);
 		}
 	}
 ?>

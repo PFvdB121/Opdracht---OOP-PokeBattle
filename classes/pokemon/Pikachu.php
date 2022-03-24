@@ -1,12 +1,11 @@
 <?php 
 	namespace pokemon;
 	
-	class Pikachu extends \EnergyType\Lightning
+	class Pikachu extends \pokemon\pokemon
 	{
-		public $PikachuAttacks = array(['name' => "Electric Ring", 'EnergyType' => "Lightning", 'damage' => 50], ['name' => "Pika Punch", 'EnergyType' => "Fightning", 'damage' => 20]);
-		
 		function __construct($nickname=""){
-			parent::__construct("Pikachu", 60, $this->PikachuAttacks, $nickname);
+			$this->EnergyType = new \EnergyType\EnergyType("Lightning");
+			parent::__construct("Pikachu", 60, array(new \Resistance\Resistance("Fighting", 20)), array(new \Weakness\Weakness("Fire", 1.5)), array(new \Attack\Attack("Electric Ring", 50), new \Attack\Attack("Pika Punch", 20)), $nickname);
 		}
 	}
 ?>
