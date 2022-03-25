@@ -17,8 +17,8 @@
 		private $resistances = array();
 		private $weaknesses = array();
 		private $attacks = array();
-		
-
+		private $sentence;
+		private static $population = 0;
 
 		public function __construct($name, $hitpoints, array $resistances, array $weaknesses, array $attacks, $nickname="")
 		{
@@ -31,6 +31,7 @@
 			}
 			$this->hitpoints = $hitpoints;
 			$this->health = $hitpoints;
+			pokemon::$population++;
 			foreach ($resistances as $value) {
 				array_push($this->resistances, $value);
 			}
@@ -68,13 +69,28 @@
 		}
 
 		public function damage($EnergyType, $damage){
-			$damage = $this->weakness_exploit($EnergyType, $damage);
-			$damage = $this->resistance_defence($EnergyType, $damage);
-			$this->health -= $damage;
-			if ($this->health < 0) {
-				$this->health = 0;
+			if ($this->health>0) {
+				$damage = $this->weakness_exploit($EnergyType, $damage);
+				$damage = $this->resistance_defence($EnergyType, $damage);
+				$this->health -= $damage;
+				$this->sentence = $this->nickname . " took " . $damage . " damage. <br>";
+				if ($this->health <= 0) {
+					$this->health = 0;
+				}
+				$this->sentence .= $this->nickname . " has " . $this->health . "hp left. <br>";
+				if ($this->health <= 0) {
+					pokemon::$population--;
+					$this->sentence.=$this->nickname ." is defeated. <br>";
+				}
+				return $this->sentence;
 			}
-			return $this->nickname . " took " . $damage . " damage. <br>" . $this->nickname . " has " . $this->health . "hp left. <br>";
+			else{
+				return $this->nickname . " is already defeated <br>";
+			}
+		}
+
+		public static function getPopulation(){
+			return "There are " . pokemon::$population . " pokemon left";
 		}
 	}
 ?>
