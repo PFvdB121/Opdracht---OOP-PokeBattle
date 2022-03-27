@@ -3,6 +3,8 @@
 
 	abstract class pokemon
 	{
+		abstract public function sendOut($player);
+
 		abstract public function attack();
 
 		abstract protected function weakness_exploit($EnergyType, $damage);

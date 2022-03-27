@@ -1,20 +1,11 @@
 <?php 
 	define('BASE_URL', $_SERVER['SERVER_NAME'] . '/..' . '/..' . '/');
 
-	$url;
-
 	spl_autoload_register(function ($class_name){
-		$url = explode('\\', $class_name);
-		include_once BASE_URL . 'classes/' . $url[count($url) - 2] . '/' . $url[count($url) - 1] . '.php';
+		include_once BASE_URL . 'classes/' . $class_name . '.php';
 	});
 
-	$Charmeleon = new pokemon\charmeleon();
-	$Pikachu = new pokemon\Pikachu();
-	$attack = $Pikachu->attack();
-	echo $attack["sentence"];
-	echo $Charmeleon->damage($attack["EnergyType"], $attack["damage"]);
-	echo $attack["sentence"];
-	echo $Charmeleon->damage($attack["EnergyType"], $attack["damage"]);
-
-	
+	$participents = array("player1" => array(new pokemon\Garbodor("Airto van Vugt"), new pokemon\charmeleon("Joey Kwestro"), new pokemon\Slaking("Stefano Verhoeve"), new pokemon\Dragonite("Arnold de Jong"), new pokemon\Wigglytuff("Jan-Willem Huisman"), new pokemon\Golbat("Stijn Dusseldorp")), "player2" => array(new pokemon\Mew("Joran Schrievers"), new pokemon\Pikachu("Patryk Rachańczyk"), new pokemon\Moltres("Sumant Jakhari"), new pokemon\MrMine("Micha van den Bos"), new pokemon\Exeggutor("Luna Akkermans"), new pokemon\Crobat("Sven de Ruijter")));
+	$Battle = new Battle\Battle($participents);
+	echo $Battle->Battle();
 ?>
