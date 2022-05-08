@@ -1,6 +1,7 @@
 <?php 
 	namespace pokemon;
 	
+	//De pokemon Slaking wordt aangemaakt
 	class Slaking extends \pokemon\pokemon
 	{
 		function __construct($nickname=""){

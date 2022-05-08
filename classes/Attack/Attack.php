@@ -1,6 +1,8 @@
 <?php
 	namespace Attack;
 
+	//Hierin maak ik de aanvallen voor de pokemon
+
 	class Attack
 	{
 		public $name;

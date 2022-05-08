@@ -1,6 +1,7 @@
 <?php 
 	namespace pokemon;
 	
+	//De pokemon Moltres wordt aangemaakt
 	class Moltres extends \pokemon\pokemon
 	{
 		function __construct($nickname=""){

@@ -1,6 +1,7 @@
 <?php 
 	namespace Resistance;
 
+	//Met deze class geef ik de pokemon resistances
 	class Resistance
 	{
 		public $EnergyType;

@@ -1,6 +1,7 @@
 <?php 
 	namespace pokemon;
 	
+	//De pokemon Mew wordt aangemaakt
 	class Mew extends \pokemon\pokemon
 	{
 		function __construct($nickname=""){

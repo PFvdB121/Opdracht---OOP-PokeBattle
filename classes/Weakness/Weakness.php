@@ -1,6 +1,7 @@
 <?php
 	namespace Weakness;
 
+	//Hiermee geef ik de pokemon zwaktes
 	class Weakness
 	{
 		public $EnergyType;

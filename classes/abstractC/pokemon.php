@@ -1,6 +1,7 @@
 <?php
 	namespace abstractC;
 
+	//Hierin wordt de blauwdruk van de class pokemon gemaakt
 	abstract class pokemon
 	{
 		abstract public function sendOut($player);
@@ -12,5 +13,7 @@
 		abstract protected function resistance_defence($EnergyType, $damage);
 		
 		abstract public function damage($EnergyType, $damage);
+
+		abstract protected function defeated();
 	}
 ?>

@@ -1,6 +1,7 @@
 <?php 
 	namespace pokemon;
 	
+	//De pokemon Wigglytuff wordt aangemaakt
 	class Wigglytuff extends \pokemon\pokemon
 	{
 		function __construct($nickname=""){

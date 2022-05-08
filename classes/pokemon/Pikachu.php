@@ -1,6 +1,7 @@
 <?php 
 	namespace pokemon;
 	
+	//De pokemon Pikachu wordt aangemaakt
 	class Pikachu extends \pokemon\pokemon
 	{
 		function __construct($nickname=""){
