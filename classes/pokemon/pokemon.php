@@ -5,9 +5,19 @@
 	class pokemon extends \abstractC\pokemon
 	{
 		private $name;
-		public $nickname;
+		private $nickname;
+
+		// private $nickname;
+		// public function getNickname() {
+		// 	return $this->nickname;
+		// }
+
+		// public function setNickname($nickname) {
+		// 	$this->nickname = $nickname;
+		// }
+
 		private $hitpoints;
-		public $health;
+		private $health;
 		protected $EnergyType;
 		private $chosenAttack;
 		private $resistances = array();
@@ -45,23 +55,27 @@
 			$this->image = $image;
 		}
 
-		//Er wordt aangegeven dat de pokemon eruit wordt gezonden, en de naam van degene wie de pokemon uitzendt wordt tussen haakjes geplaatst
+		//Er wordt aangegeven dat er een pokemon eruit wordt gezonden
 		public function sendOut($player){
 			return $player . " send out " . $this->nickname . " <img src=' " . BASE_URL .  "images/" . $this->image . "' alt='" . $this->name  . "' style='width:100px'>. <br>";
+		}
+
+		public function getName(){
+			return $this->name;
 		}
 
 		//Een willekeurige aanval van de pokemon wordt gekozen, die die dan gebruikt
 		public function attack(){
 			$this->chosenAttack = rand(0, (count($this->attacks) - 1));
-			return array("name" => $this->attacks[$this->chosenAttack]->name, "damage" => $this->attacks[$this->chosenAttack]->damage, "EnergyType" => $this->EnergyType->EnergyType, "sentence" => $this->nickname . " used " . $this->attacks[$this->chosenAttack]->name . " <img src=' " . BASE_URL .  "images/" . $this->image . "' alt='" . $this->name  . "' style='width:100px'>. <br>");
+			return array("name" => $this->attacks[$this->chosenAttack]->getName(), "damage" => $this->attacks[$this->chosenAttack]->getDamage(), "EnergyType" => $this->EnergyType->getEnergyType(), "sentence" => $this->nickname . " used " . $this->attacks[$this->chosenAttack]->getName() . " <img src=' " . BASE_URL .  "images/" . $this->image . "' alt='" . $this->name  . "' style='width:100px'>. <br>");
 		}
 
 		//Er wordt gekeken of de EnergyType van de aanval waarmee deze pokemon wordt aangevallen onder één van zijn zwaktes valt. Als dat het geval is, dan wordt de schade vermedigvuldigt gebaseerd op het getal dat in $this-weaknesses staat in Multiplier. Deze functie kan alleen in deze class en zijn child classes worden gebruikt.
 		protected function weakness_exploit($EnergyType, $damage)
 		{
 			foreach ($this->weaknesses as $value) {
-				if (strtoupper($value->EnergyType) == strtoupper($EnergyType)) {
-					$damage *= $value->Multiplier;
+				if (strtoupper($value->getEnergyType()) == strtoupper($EnergyType)) {
+					$damage *= $value->getMultiplier();
 				}
 			}
 			return $damage;
@@ -71,8 +85,8 @@
 		protected function resistance_defence($EnergyType, $damage)
 		{
 			foreach ($this->resistances as $value) {
-				if (strtoupper($value->EnergyType) == strtoupper($EnergyType)) {
-					$damage -= $value->Reduction;
+				if (strtoupper($value->getEnergyType()) == strtoupper($EnergyType)) {
+					$damage -= $value->getReduction();
 					if ($damage<0) {
 						$damage = 0;
 					}
@@ -106,8 +120,20 @@
 		protected function defeated(){
 			if ($this->health <= 0) {
 				pokemon::$population--;
-				$this->sentence.=$this->nickname ." is defeated. <br>";
+				$this->sentence.= $this->nickname ." is defeated. <br>";
 			}
+		}
+
+		public function getHealth(){
+			return $this->health;
+		}
+
+		public function getImage(){
+			return $this->image;
+		}
+
+		public function getNickname(){
+			return $this->nickname;
 		}
 
 		//Hierin wordt er gekeken hoeveel pokemon er over zijn

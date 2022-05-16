@@ -4,7 +4,7 @@
 	//In deze class wordt een gevecht gestart. Er wordt gekeken of de variabele een array is, of er 2 variabelen daarin zitten, en of de variabelen niet te groot of te klein zijn
 	class Battle
 	{
-		private $sentence;
+		private $sentence = array();
 		private $attack;
 
 		private $participents;
@@ -20,13 +20,18 @@
 			$this->participents = $participents;
 		}
 
+		//Er wordt aangegeven dat er een pokemon eruit wordt gezonden
+		public function sendOut($player, $name){
+			return $player . " send out " . $name . ".";
+		}
+
 		public function Battle(){
 
 			if (is_array($this->participents)) {
 
-				if (is_array($this->participents[$this->participentsName[0]]) && is_array($this->participents[$this->participentsName[1]])) {
+				if (count($this->participents) == 2) {
 
-					if (count($this->participents) == 2) {
+					if (is_array($this->participents[$this->participentsName[0]]) && is_array($this->participents[$this->participentsName[1]])) {
 
 						if (count($this->participents[$this->participentsName[0]]) > 0 && count($this->participents[$this->participentsName[0]]) <= 6 && count($this->participents[$this->participentsName[1]]) > 0 && count($this->participents[$this->participentsName[1]]) <= 6) {
 
@@ -37,7 +42,7 @@
 							$this->sentence = \pokemon\pokemon::getPopulation() . \pokemon\pokemon::getPopulationHealth() . "fight begins <br>" . $this->participents[$this->participentsName[0]][$this->player1]->sendOut($this->participentsName[0]) . $this->participents[$this->participentsName[1]][$this->player2]->sendOut($this->participentsName[1]);
 							while (count($this->participents[$this->participentsName[0]]) > $this->player1 && count($this->participents[$this->participentsName[1]]) > $this->player2) {
 
-								while ($this->participents[$this->participentsName[0]][$this->player1]->health > 0 && $this->participents[$this->participentsName[1]][$this->player2]->health > 0) {
+								while ($this->participents[$this->participentsName[0]][$this->player1]->getHealth() > 0 && $this->participents[$this->participentsName[1]][$this->player2]->getHealth() > 0) {
 
 									$this->attack = $this->participents[$this->participentsName[0]][$this->player1]->attack();
 
@@ -47,7 +52,7 @@
 
 									$this->sentence .= \pokemon\pokemon::getPopulationHealth();
 
-									if ($this->participents[$this->participentsName[1]][$this->player2]->health <= 0) {
+									if ($this->participents[$this->participentsName[1]][$this->player2]->getHealth() <= 0) {
 
 										$this->player2++;
 
@@ -55,7 +60,9 @@
 											$this->sentence .= $this->participents[$this->participentsName[1]][$this->player2]->sendOut($this->participentsName[1]);
 										}
 
-										continue;		
+										else{
+											break;
+										}	
 
 									}
 
@@ -67,12 +74,16 @@
 
 									$this->sentence .= \pokemon\pokemon::getPopulationHealth();
 
-									if ($this->participents[$this->participentsName[0]][$this->player1]->health <= 0) {
+									if ($this->participents[$this->participentsName[0]][$this->player1]->getHealth() <= 0) {
 										$this->player1++;
 
 										if (count($this->participents[$this->participentsName[0]]) > $this->player1) {
 											$this->sentence .= $this->participents[$this->participentsName[0]][$this->player1]->sendOut($this->participentsName[0]);
 										}
+
+										else{
+											break;
+										}	
 
 									}
 
@@ -95,17 +106,18 @@
 						}
 					}
 
-					elseif (count($this->participents) > 2) {
-						$this->sentence = "Er zijn te veel vechters";
-					}
-
 					else{
-						$this->sentence = "Er zijn te weining vechters";
+						$this->sentence = "De indexen in de array die je verstuurt moeten ook arrays zijn";
 					}
+					
+				}
+
+				elseif (count($this->participents) > 2) {
+					$this->sentence = "Er zijn te veel vechters";
 				}
 
 				else{
-					$this->sentence = "De indexen in de array die je verstuurt moeten ook arrays zijn";
+					$this->sentence = "Er zijn te weining vechters";
 				}
 			}
 

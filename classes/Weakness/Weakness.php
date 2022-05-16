@@ -4,13 +4,21 @@
 	//Hiermee geef ik de pokemon zwaktes
 	class Weakness
 	{
-		public $EnergyType;
-		public $Multiplier;
+		private $EnergyType;
+		private $Multiplier;
 
 		function __construct($EnergyType, $Multiplier)
 		{
 			$this->EnergyType = $EnergyType;
 			$this->Multiplier = $Multiplier;
+		}
+
+		public function getEnergyType(){
+			return $this->EnergyType;
+		}
+
+		public function getMultiplier(){
+			return $this->Multiplier;
 		}
 	}
 ?>

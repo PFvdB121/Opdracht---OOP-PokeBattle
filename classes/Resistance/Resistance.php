@@ -4,13 +4,21 @@
 	//Met deze class geef ik de pokemon resistances
 	class Resistance
 	{
-		public $EnergyType;
-		public $Reduction;
+		private $EnergyType;
+		private $Reduction;
 
 		function __construct($EnergyType, $Reduction)
 		{
 			$this->EnergyType = $EnergyType;
 			$this->Reduction = $Reduction;
+		}
+
+		public function getEnergyType(){
+			return $this->EnergyType;
+		}
+
+		public function getReduction(){
+			return $this->Reduction;
 		}
 	}
 ?>

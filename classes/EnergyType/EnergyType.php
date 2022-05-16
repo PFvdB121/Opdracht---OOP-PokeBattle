@@ -4,11 +4,15 @@
 	//Hierin maak ik de EnergyTypes voor de pokemon
 	class EnergyType
 	{
-		public $EnergyType;
+		private $EnergyType;
 
 		function __construct($EnergyType)
 		{
 			$this->EnergyType = $EnergyType;
+		}
+
+		public function getEnergyType(){
+			return $this->EnergyType;
 		}
 	}
 ?>

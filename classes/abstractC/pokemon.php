@@ -15,5 +15,7 @@
 		abstract public function damage($EnergyType, $damage);
 
 		abstract protected function defeated();
+
+		abstract public function getHealth();
 	}
 ?>

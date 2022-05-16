@@ -10,3 +10,13 @@
 	$Battle = new Battle\Battle($participents);
 	echo $Battle->Battle();
 ?>
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title></title>
+</head>
+<body>
+	
+</body>
+</html>
