@@ -16,15 +16,15 @@
 		// 	$this->nickname = $nickname;
 		// }
 
-		private $hitpoints;
-		private $health;
+		protected $hitpoints;
+		protected $health;
 		protected $EnergyType;
-		private $chosenAttack;
-		private $resistances = array();
-		private $weaknesses = array();
-		private $attacks = array();
-		private $image;
-		private $sentence;
+		protected $chosenAttack;
+		protected $resistances = array();
+		protected $weaknesses = array();
+		protected $attacks = array();
+		protected $image;
+		protected $sentence;
 		private static $population = 0;
 		private static $totalHealthPopulation = 0;
 		private static $populationHealth;
@@ -57,7 +57,7 @@
 
 		//Er wordt aangegeven dat er een pokemon eruit wordt gezonden
 		public function sendOut($player){
-			return $player . " send out " . $this->nickname . " <img src=' " . BASE_URL .  "images/" . $this->image . "' alt='" . $this->name  . "' style='width:100px'>. <br>";
+			return $player . " send out " . $this->nickname . ".";
 		}
 
 		public function getName(){
@@ -67,7 +67,7 @@
 		//Een willekeurige aanval van de pokemon wordt gekozen, die die dan gebruikt
 		public function attack(){
 			$this->chosenAttack = rand(0, (count($this->attacks) - 1));
-			return array("name" => $this->attacks[$this->chosenAttack]->getName(), "damage" => $this->attacks[$this->chosenAttack]->getDamage(), "EnergyType" => $this->EnergyType->getEnergyType(), "sentence" => $this->nickname . " used " . $this->attacks[$this->chosenAttack]->getName() . " <img src=' " . BASE_URL .  "images/" . $this->image . "' alt='" . $this->name  . "' style='width:100px'>. <br>");
+			return array("name" => $this->attacks[$this->chosenAttack]->getName(), "damage" => $this->attacks[$this->chosenAttack]->getDamage(), "EnergyType" => $this->EnergyType->getEnergyType(), "sentence" => $this->nickname . " used " . $this->attacks[$this->chosenAttack]->getName() . ".");
 		}
 
 		//Er wordt gekeken of de EnergyType van de aanval waarmee deze pokemon wordt aangevallen onder één van zijn zwaktes valt. Als dat het geval is, dan wordt de schade vermedigvuldigt gebaseerd op het getal dat in $this-weaknesses staat in Multiplier. Deze functie kan alleen in deze class en zijn child classes worden gebruikt.
@@ -102,25 +102,24 @@
 				$damage = $this->resistance_defence($EnergyType, $damage);
 				$this->health -= $damage;
 				pokemon::$totalHealthPopulation -= $damage;
-				$this->sentence = $this->nickname . " took " . $damage . " damage. <br>";
+				$this->sentence = $this->nickname . " took " . $damage . " damage. ";
 				if ($this->health < 0) {
 					pokemon::$totalHealthPopulation -= $this->health;
 					$this->health = 0;
 				}
-				$this->sentence .= $this->nickname . " has " . $this->health . "hp left <img src=' " . BASE_URL .  "images/" . $this->image . "' alt='" . $this->name . "' style='width:100px'>. <br>";
-				$this->defeated();
+				$this->sentence .= $this->nickname . " has " . $this->health . "hp left.";
 			}
 			else{
-				$this->sentence = $this->nickname . " is already defeated <br>";
+				$this->sentence = $this->nickname . " is already defeated.";
 			}
 			return $this->sentence;
 		}
 
 		//Hierin wordt er gekeken of de pokemon verslagen is
-		protected function defeated(){
+		public function defeated(){
 			if ($this->health <= 0) {
 				pokemon::$population--;
-				$this->sentence.= $this->nickname ." is defeated. <br>";
+				$this->sentence.= $this->nickname ." is defeated.";
 			}
 		}
 
@@ -138,13 +137,13 @@
 
 		//Hierin wordt er gekeken hoeveel pokemon er over zijn
 		public static function getPopulation(){
-			return "There are " . pokemon::$population . " pokemon left <br>";
+			return "There are " . pokemon::$population . " pokemon left.";
 		}
 
 		//Hierin wordt er gekeken wat de gemiddelde hoeveelheid health van alle pokemon zijn
 		public static function getPopulationHealth(){
 			pokemon::$populationHealth = pokemon::$totalHealthPopulation / pokemon::$population;
-			return "The average amount of health is " . round(pokemon::$populationHealth) . "<br>";
+			return "The average amount of health is " . round(pokemon::$populationHealth) . ".";
 		}
 	}
 ?>

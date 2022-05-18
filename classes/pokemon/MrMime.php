@@ -1,7 +1,7 @@
 <?php 
 	namespace pokemon;
 	
-	//De pokemon MrMi wordt aangemaakt
+	//De pokemon MrMime wordt aangemaakt
 	class MrMime extends \pokemon\pokemon
 	{
 		function __construct($nickname=""){

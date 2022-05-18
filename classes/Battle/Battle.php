@@ -21,8 +21,8 @@
 		}
 
 		//Er wordt aangegeven dat er een pokemon eruit wordt gezonden
-		public function sendOut($player, $name){
-			return $player . " send out " . $name . ".";
+		public function sendOut($player, $pokemon){
+			return $player . " send out " . $pokemon . ".";
 		}
 
 		public function Battle(){
@@ -39,25 +39,24 @@
 
 							$this->player2 = 0;
 
-							$this->sentence = \pokemon\pokemon::getPopulation() . \pokemon\pokemon::getPopulationHealth() . "fight begins <br>" . $this->participents[$this->participentsName[0]][$this->player1]->sendOut($this->participentsName[0]) . $this->participents[$this->participentsName[1]][$this->player2]->sendOut($this->participentsName[1]);
+							array_push($this->sentence, array("sentence" => \pokemon\pokemon::getPopulation()), array("sentence" => \pokemon\pokemon::getPopulationHealth()), array("sentence" => "fight begins"), array("sentence" => $this->sendOut($this->participentsName[0], $this->participents[$this->participentsName[0]][$this->player1]->getNickname()), "image" => $this->participents[$this->participentsName[0]][$this->player1]->getImage(), "alt" => $this->participents[$this->participentsName[0]][$this->player1]->getName()), array("sentence" => $this->sendOut($this->participentsName[1], $this->participents[$this->participentsName[1]][$this->player2]->getNickname()), "image" => $this->participents[$this->participentsName[1]][$this->player2]->getImage(), "alt" => $this->participents[$this->participentsName[1]][$this->player2]->getName()));
+
 							while (count($this->participents[$this->participentsName[0]]) > $this->player1 && count($this->participents[$this->participentsName[1]]) > $this->player2) {
 
 								while ($this->participents[$this->participentsName[0]][$this->player1]->getHealth() > 0 && $this->participents[$this->participentsName[1]][$this->player2]->getHealth() > 0) {
 
 									$this->attack = $this->participents[$this->participentsName[0]][$this->player1]->attack();
 
-									$this->sentence .= $this->attack["sentence"];
-
-									$this->sentence .= $this->participents[$this->participentsName[1]][$this->player2]->damage($this->attack["EnergyType"], $this->attack["damage"]);
-
-									$this->sentence .= \pokemon\pokemon::getPopulationHealth();
+									array_push($this->sentence, array("sentence" => $this->attack["sentence"], "image" => $this->participents[$this->participentsName[0]][$this->player1]->getImage(), "alt" => $this->participents[$this->participentsName[0]][$this->player1]->getName()), array("sentence" => $this->participents[$this->participentsName[1]][$this->player2]->damage($this->attack["EnergyType"], $this->attack["damage"]), "image" => $this->participents[$this->participentsName[1]][$this->player2]->getImage(), "alt" => $this->participents[$this->participentsName[1]][$this->player2]->getName()), array("sentence" => \pokemon\pokemon::getPopulationHealth()));
 
 									if ($this->participents[$this->participentsName[1]][$this->player2]->getHealth() <= 0) {
+
+										array_push($this->sentence, array("sentence" => $this->participents[$this->participentsName[1]][$this->player2]->defeated()));
 
 										$this->player2++;
 
 										if (count($this->participents[$this->participentsName[1]]) > $this->player2) {
-											$this->sentence .= $this->participents[$this->participentsName[1]][$this->player2]->sendOut($this->participentsName[1]);
+											array_push($this->sentence, array("sentence" => $this->participents[$this->participentsName[1]][$this->player2]->sendOut($this->participentsName[1], $this->participents[$this->participentsName[1]][$this->player2]->getNickname()), "image" => $this->participents[$this->participentsName[1]][$this->player2]->getImage(), "alt" => $this->participents[$this->participentsName[1]][$this->player2]->getName()));
 										}
 
 										else{
@@ -68,17 +67,16 @@
 
 									$this->attack = $this->participents[$this->participentsName[1]][$this->player2]->attack();
 
-									$this->sentence .= $this->attack["sentence"];
-
-									$this->sentence .= $this->participents[$this->participentsName[0]][$this->player1]->damage($this->attack["EnergyType"], $this->attack["damage"]);
-
-									$this->sentence .= \pokemon\pokemon::getPopulationHealth();
+									array_push($this->sentence, array("sentence" => $this->attack["sentence"], "image" => $this->participents[$this->participentsName[1]][$this->player2]->getImage(), "alt" => $this->participents[$this->participentsName[1]][$this->player2]->getName()), array("sentence" => $this->participents[$this->participentsName[0]][$this->player1]->damage($this->attack["EnergyType"], $this->attack["damage"]), "image" => $this->participents[$this->participentsName[0]][$this->player1]->getImage(), "alt" => $this->participents[$this->participentsName[0]][$this->player1]->getName()), array("sentence" => \pokemon\pokemon::getPopulationHealth()));
 
 									if ($this->participents[$this->participentsName[0]][$this->player1]->getHealth() <= 0) {
+
+										array_push($this->sentence, array("sentence" => $this->participents[$this->participentsName[0]][$this->player1]->defeated()));
+
 										$this->player1++;
 
 										if (count($this->participents[$this->participentsName[0]]) > $this->player1) {
-											$this->sentence .= $this->participents[$this->participentsName[0]][$this->player1]->sendOut($this->participentsName[0]);
+											array_push($this->sentence, array("sentence" => $this->participents[$this->participentsName[0]][$this->player1]->sendOut($this->participentsName[1], $this->participents[$this->participentsName[0]][$this->player1]->getNickname()), "image" => $this->participents[$this->participentsName[0]][$this->player1]->getImage(), "alt" => $this->participents[$this->participentsName[0]][$this->player1]->getName()));
 										}
 
 										else{
@@ -89,40 +87,42 @@
 
 								}
 
-								$this->sentence .= \pokemon\pokemon::getPopulation();
+								array_push($this->sentence, array("sentence" => \pokemon\pokemon::getPopulation()));
 
 								if (count($this->participents[$this->participentsName[0]]) == $this->player1) {
-									$this->sentence .= $this->participentsName[0] . " is defeated.";
+									array_push($this->sentence, array("sentence" => $this->participentsName[0] . " is defeated."));
 								}
 
 								elseif (count($this->participents[$this->participentsName[1]]) == $this->player2) {
-									$this->sentence .= $this->participentsName[1] . " is defeated.";
+									array_push($this->sentence, array("sentence" => $this->participentsName[1] . " is defeated."));
 								}
 							}
 						}
 
 						else{
-							$this->sentence = "Elke speler moet minimaal 1 pokemon bezitten, maximaal 6";
+							array_push($this->sentence, array("sentence" => "Elke speler moet minimaal 1 pokemon bezitten, maximaal 6"));
 						}
+
 					}
 
 					else{
-						$this->sentence = "De indexen in de array die je verstuurt moeten ook arrays zijn";
+						array_push($this->sentence, array("sentence" => "De indexen in de array die je verstuurt moeten ook arrays zijn"));
 					}
-					
+
 				}
 
 				elseif (count($this->participents) > 2) {
-					$this->sentence = "Er zijn te veel vechters";
+					array_push($this->sentence, array("sentence" => "Er zijn te veel vechters"));
 				}
 
 				else{
-					$this->sentence = "Er zijn te weining vechters";
+					array_push($this->sentence, array("sentence" => "Er zijn te weining vechters"));
 				}
+
 			}
 
 			else{
-				$this->sentence = "De variabele in de class moet een array zijn";
+				array_push($this->sentence, array("sentence" => "De variabele in de class moet een array zijn"));
 			}
 
 			return $this->sentence;
